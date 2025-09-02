@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   const handleFiltersChange = (filters: {
     region?: string;
-    tema?: string;
+    temata?: string[];
     dulezitost?: string;
   }) => {
     const filtered = filterArticles(articles, filters);

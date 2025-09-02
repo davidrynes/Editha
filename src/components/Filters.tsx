@@ -5,6 +5,7 @@ import { Article } from '@/types/article';
 import { Button } from '@/components/ui/button';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Filter, X } from 'lucide-react';
 
@@ -12,7 +13,7 @@ interface FiltersProps {
   articles: Article[];
   onFiltersChange: (filters: {
     region?: string;
-    tema?: string;
+    temata?: string[];
     dulezitost?: string;
   }) => void;
 }
@@ -20,7 +21,7 @@ interface FiltersProps {
 export function Filters({ articles, onFiltersChange }: FiltersProps) {
   const [filters, setFilters] = useState({
     region: 'all',
-    tema: 'all',
+    temata: [] as string[],
     dulezitost: 'all'
   });
 
@@ -35,7 +36,24 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
     // Convert 'all' to undefined for filtering
     const filterValues = {
       region: newFilters.region === 'all' ? undefined : newFilters.region,
-      tema: newFilters.tema === 'all' ? undefined : newFilters.tema,
+      temata: newFilters.temata.length === 0 ? undefined : newFilters.temata,
+      dulezitost: newFilters.dulezitost === 'all' ? undefined : newFilters.dulezitost
+    };
+    
+    onFiltersChange(filterValues);
+  };
+
+  const handleTemaChange = (tema: string, checked: boolean) => {
+    const newTemata = checked 
+      ? [...filters.temata, tema]
+      : filters.temata.filter(t => t !== tema);
+    
+    const newFilters = { ...filters, temata: newTemata };
+    setFilters(newFilters);
+    
+    const filterValues = {
+      region: newFilters.region === 'all' ? undefined : newFilters.region,
+      temata: newTemata.length === 0 ? undefined : newTemata,
       dulezitost: newFilters.dulezitost === 'all' ? undefined : newFilters.dulezitost
     };
     
@@ -43,12 +61,12 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
   };
 
   const clearFilters = () => {
-    const clearedFilters = { region: 'all', tema: 'all', dulezitost: 'all' };
+    const clearedFilters = { region: 'all', temata: [], dulezitost: 'all' };
     setFilters(clearedFilters);
     onFiltersChange({});
   };
 
-  const hasActiveFilters = Object.values(filters).some(value => value !== 'all');
+  const hasActiveFilters = filters.region !== 'all' || filters.temata.length > 0 || filters.dulezitost !== 'all';
 
   return (
     <Card>
@@ -61,7 +79,7 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
       <CardContent className="space-y-4">
 
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="text-sm font-medium mb-2 block">Region</label>
             <Select value={filters.region} onValueChange={(value) => handleFilterChange('region', value)}>
@@ -78,18 +96,24 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
           </div>
 
           <div>
-            <label className="text-sm font-medium mb-2 block">Téma</label>
-            <Select value={filters.tema} onValueChange={(value) => handleFilterChange('tema', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Všechna témata" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Všechna témata</SelectItem>
-                {temata.map(tema => (
-                  <SelectItem key={tema} value={tema}>{tema}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <label className="text-sm font-medium mb-2 block">Témata</label>
+            <div className="space-y-2 max-h-32 overflow-y-auto border rounded-md p-3">
+              {temata.map(tema => (
+                <div key={tema} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={tema}
+                    checked={filters.temata.includes(tema)}
+                    onCheckedChange={(checked) => handleTemaChange(tema, checked as boolean)}
+                  />
+                  <label
+                    htmlFor={tema}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    {tema}
+                  </label>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div>

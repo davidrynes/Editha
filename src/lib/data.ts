@@ -54,7 +54,7 @@ export function getUniqueValues(articles: Article[], field: keyof Article): stri
 
 export function filterArticles(articles: Article[], filters: {
   region?: string;
-  tema?: string;
+  temata?: string[];
   dulezitost?: string;
 }): Article[] {
   return articles.filter(article => {
@@ -64,7 +64,7 @@ export function filterArticles(articles: Article[], filters: {
     }
     
     if (filters.region && article.region !== filters.region) return false;
-    if (filters.tema && article.tema !== filters.tema) return false;
+    if (filters.temata && filters.temata.length > 0 && !filters.temata.includes(article.tema)) return false;
     if (filters.dulezitost && article.dulezitost !== filters.dulezitost) return false;
     
     return true;
