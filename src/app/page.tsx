@@ -9,7 +9,7 @@ import { HighPriorityTicker } from '@/components/HighPriorityTicker';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Download } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 export default function Dashboard() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -45,34 +45,7 @@ export default function Dashboard() {
     setFilteredArticles(filtered);
   };
 
-  const exportToCSV = () => {
-    const csvContent = [
-      // Header
-      ['Nadpis', 'Shrnutí', 'Region', 'Téma', 'Důležitost', 'Tagy', 'Zdroj', 'URL', 'Čas'].join(','),
-      // Data
-      ...filteredArticles.map(article => [
-        `"${article.doporuceny_nadpis || ''}"`,
-        `"${article.shrnuti || ''}"`,
-        `"${article.region || ''}"`,
-        `"${article.tema || ''}"`,
-        `"${article.dulezitost || ''}"`,
-        `"${article.tagy || ''}"`,
-        `"${article.source_name || ''}"`,
-        `"${article.url || ''}"`,
-        `"${article.timestamp || ''}"`
-      ].join(','))
-    ].join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `clanky_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   if (loading) {
     return (
@@ -114,21 +87,15 @@ export default function Dashboard() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Dashboard redaktorů</h1>
+              <h1 className="text-3xl font-bold tracking-tight">Editha</h1>
               <p className="text-muted-foreground">
-                Přehled klasifikovaných článků z RSS zdrojů
+                Přehled článků z redakčních zdrojů
               </p>
             </div>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={loadArticles}>
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Obnovit
-              </Button>
-              <Button variant="outline" onClick={exportToCSV}>
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
-              </Button>
-            </div>
+            <Button variant="outline" onClick={loadArticles}>
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Obnovit
+            </Button>
           </div>
           
           <div className="flex items-center gap-2">
