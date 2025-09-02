@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Card, CardContent } from '@/components/ui/card';
-import { X } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 
 interface FiltersProps {
   articles: Article[];
@@ -91,23 +92,43 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
 
           <div>
             <label className="text-sm font-medium mb-2 block">Témata</label>
-            <div className="space-y-2 max-h-32 overflow-y-auto border rounded-md p-3">
-              {temata.map(tema => (
-                <div key={tema} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={tema}
-                    checked={filters.temata.includes(tema)}
-                    onCheckedChange={(checked) => handleTemaChange(tema, checked as boolean)}
-                  />
-                  <label
-                    htmlFor={tema}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    {tema}
-                  </label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className="w-full justify-between"
+                >
+                  {filters.temata.length === 0 
+                    ? "Všechna témata" 
+                    : filters.temata.length === 1 
+                      ? filters.temata[0]
+                      : `${filters.temata.length} témat`}
+                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <div className="max-h-64 overflow-y-auto">
+                  <div className="p-3 space-y-2">
+                    {temata.map(tema => (
+                      <div key={tema} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={tema}
+                          checked={filters.temata.includes(tema)}
+                          onCheckedChange={(checked) => handleTemaChange(tema, checked as boolean)}
+                        />
+                        <label
+                          htmlFor={tema}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1"
+                        >
+                          {tema}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div>
