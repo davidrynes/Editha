@@ -36,7 +36,7 @@ export async function fetchArticles(): Promise<Article[]> {
           });
           resolve(sortedArticles);
         },
-        error: (error) => {
+        error: (error: Error) => {
           reject(error);
         }
       });

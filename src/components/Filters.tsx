@@ -102,7 +102,7 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
                 <SelectItem value="all">Všechny úrovně</SelectItem>
                 {dulezitosti.map(dulezitost => (
                   <SelectItem key={dulezitost} value={dulezitost}>
-                    {dulezitost} {Array.from({length: parseInt(dulezitost)}, (_, i) => '★').join('')}
+                    {dulezitost} {Array.from({length: parseInt(dulezitost)}, () => '★').join('')}
                   </SelectItem>
                 ))}
               </SelectContent>

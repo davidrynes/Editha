@@ -6,7 +6,7 @@ import { fetchArticles, filterArticles } from '@/lib/data';
 import { ArticleCard } from '@/components/ArticleCard';
 import { Filters } from '@/components/Filters';
 import { HighPriorityTicker } from '@/components/HighPriorityTicker';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, Download } from 'lucide-react';
