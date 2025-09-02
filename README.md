@@ -1,15 +1,17 @@
-# Dashboard redaktorů
+# Editha - Dashboard redaktorů
 
-Minimalistický a čistý dashboard pro redaktory postavený na Next.js a shadcn/ui komponentách.
+Minimalistický a čistý dashboard pro redaktory postavený na Next.js a shadcn/ui komponentách. Dashboard automaticky načítá a zobrazuje klasifikované články z n8n workflow.
 
-## Funkce
+## 🚀 Funkce
 
 - 📊 **Přehled článků** - Zobrazení všech klasifikovaných článků z RSS zdrojů
-- 🔍 **Filtrování** - Filtry podle regionu, tématu, důležitosti a fulltextové vyhledávání
-- 📈 **Statistiky** - Přehledné statistiky o článcích a jejich distribuci
+- 🔍 **Inteligentní filtrování** - Filtry podle regionu, tématu a důležitosti
+- ⚡ **Rotující ticker** - Automatické střídání zpráv s důležitostí 5 s fade efektem
 - 📱 **Responzivní design** - Optimalizováno pro desktop i mobilní zařízení
-- 📤 **Export** - Možnost exportu filtrovaných dat do CSV
-- 🔄 **Automatická aktualizace** - Data se načítají z Google Sheets s cache
+- 📤 **Export funkcionalita** - Možnost exportu filtrovaných dat do CSV
+- 🔄 **Automatická aktualizace** - Data se načítají z Google Sheets s 5min cache
+- 🎯 **Řazení podle důležitosti** - Články se řadí primárně podle důležitosti (5-1)
+- 🚫 **Filtrování duplicit** - Automatické skrývání duplicitních zpráv
 
 ## Technologie
 
@@ -55,55 +57,79 @@ Dashboard načítá data z Google Sheets CSV s následující strukturou:
 - `url` - URL původního článku
 - `source_name` - Název zdroje
 
-## Komponenty
+## 🧩 Komponenty
 
 ### ArticleCard
-Zobrazuje jednotlivý článek s:
-- Doporučeným nadpisem
-- Shrnutím obsahu
-- Badges pro důležitost, region a téma
-- Tagy
-- Odkazem na původní článek
-- Časem publikace
+Elegantní karta pro zobrazení článku s:
+- Doporučeným nadpisem s externím odkazem
+- Shrnutím obsahu (max 3 řádky)
+- Barevnými badges pro důležitost, region a téma
+- Tagy (max 3, lowercase bez diakritiky)
+- Zdroj extrahovaný z URL
+- Relativním časem publikace
 
 ### Filters
-Filtrovací panel s:
-- Fulltextovým vyhledáváním
+Čistý filtrační panel s:
 - Filtry podle regionu, tématu a důležitosti
-- Možností vymazat všechny filtry
+- Dropdown selecty s "Všechny" možnostmi
+- Možností vymazat všechny filtry najednou
+- Real-time filtrování bez reload stránky
 
-### StatsCards
-Statistické karty zobrazující:
-- Celkový počet článků
-- Počet článků s vysokou důležitostí
-- Počet článků z posledních 24 hodin
-- Top 3 regiony podle počtu článků
+### HighPriorityTicker
+Rotující modul pro zprávy s důležitostí 5:
+- Automatické střídání každých 5 sekund
+- Plynulý fade-in-out efekt (600ms)
+- Vizuální indikátory aktuální pozice
+- Červené barevné schéma pro zvýraznění
+- Pevná výška pro eliminaci "skákání"
+- Automatické skrytí pokud nejsou zprávy s důležitostí 5
 
-## Konfigurace
+## ⚙️ Konfigurace
 
-Data se načítají z Google Sheets CSV URL definované v `src/lib/data.ts`. Cache je nastavena na 5 minut pro optimalizaci výkonu.
+### Data Source
+Data se načítají z Google Sheets CSV URL definované v `src/lib/data.ts`:
+- **CSV URL**: Automaticky načítá z n8n workflow
+- **Cache**: 5 minut pro optimalizaci výkonu
+- **Filtrování**: Automatické skrývání duplicitních zpráv
 
-## Deploy na Vercel
+### Řazení
+Články se řadí podle:
+1. **Důležitost** (5-1, sestupně)
+2. **Čas publikace** (nejnovější první)
 
+### Filtrování
+Automaticky se skrývají:
+- Články s tématem "Duplicitni"
+- Články s nadpisem "Duplicitní zpráva"
+
+## 🚀 Deploy na Vercel
+
+### Rychlý Deploy
 1. **Připojení k Vercel:**
    - Jdi na [vercel.com](https://vercel.com)
    - Přihlaš se a klikni "New Project"
    - Importuj repozitář z GitHub: `davidrynes/Editha`
 
-2. **Konfigurace:**
+2. **Automatická konfigurace:**
    - Framework: Next.js (detekuje automaticky)
    - Build Command: `npm run build`
    - Output Directory: `.next` (default)
    - Install Command: `npm install`
 
-3. **Environment Variables (volitelné):**
-   - Pokud budeš chtít změnit CSV URL, přidej:
-     - `NEXT_PUBLIC_CSV_URL` - URL k Google Sheets CSV
-
-4. **Deploy:**
+3. **Deploy:**
    - Klikni "Deploy"
    - Vercel automaticky buildne a deployne aplikaci
    - Získáš URL typu `https://editha-xxx.vercel.app`
+
+### Environment Variables (volitelné)
+Pokud budeš chtít změnit CSV URL, přidej:
+- `NEXT_PUBLIC_CSV_URL` - URL k Google Sheets CSV
+
+### Vercel Konfigurace
+Projekt obsahuje `vercel.json` s optimalizacemi:
+- Security headers
+- Next.js specifické nastavení
+- Optimalizace pro produkční prostředí
 
 ## Build pro produkci
 
@@ -112,10 +138,37 @@ npm run build
 npm start
 ```
 
-## Live Demo
+## 📊 Live Demo
 
 Dashboard je dostupný na: [GitHub Repository](https://github.com/davidrynes/Editha)
 
-## Licence
+Po deploy na Vercel bude dostupný na: `https://editha-xxx.vercel.app`
+
+## 🔧 Vývoj
+
+### Lokální spuštění
+```bash
+npm install
+npm run dev
+```
+
+### Build pro produkci
+```bash
+npm run build
+npm start
+```
+
+## 📝 Changelog
+
+### v1.0.0
+- ✅ Základní dashboard s načítáním z Google Sheets
+- ✅ Filtrování podle regionu, tématu a důležitosti
+- ✅ Rotující ticker pro zprávy s důležitostí 5
+- ✅ Fade-in-out efekt pro plynulé střídání
+- ✅ Export do CSV funkcionalita
+- ✅ Automatické skrývání duplicitních zpráv
+- ✅ Responzivní design s shadcn/ui komponenty
+
+## 📄 Licence
 
 MIT
