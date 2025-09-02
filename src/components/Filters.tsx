@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Filter, X } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { X } from 'lucide-react';
 
 interface FiltersProps {
   articles: Article[];
@@ -70,13 +70,7 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Filter className="h-5 w-5" />
-          Filtry
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="p-6 space-y-4">
 
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
