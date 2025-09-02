@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { Metadata } from 'next';
 import { Article } from '@/types/article';
 import { fetchArticles, filterArticles } from '@/lib/data';
 import { ArticleCard } from '@/components/ArticleCard';
