@@ -83,12 +83,38 @@ Statistické karty zobrazující:
 
 Data se načítají z Google Sheets CSV URL definované v `src/lib/data.ts`. Cache je nastavena na 5 minut pro optimalizaci výkonu.
 
+## Deploy na Vercel
+
+1. **Připojení k Vercel:**
+   - Jdi na [vercel.com](https://vercel.com)
+   - Přihlaš se a klikni "New Project"
+   - Importuj repozitář z GitHub: `davidrynes/Editha`
+
+2. **Konfigurace:**
+   - Framework: Next.js (detekuje automaticky)
+   - Build Command: `npm run build`
+   - Output Directory: `.next` (default)
+   - Install Command: `npm install`
+
+3. **Environment Variables (volitelné):**
+   - Pokud budeš chtít změnit CSV URL, přidej:
+     - `NEXT_PUBLIC_CSV_URL` - URL k Google Sheets CSV
+
+4. **Deploy:**
+   - Klikni "Deploy"
+   - Vercel automaticky buildne a deployne aplikaci
+   - Získáš URL typu `https://editha-xxx.vercel.app`
+
 ## Build pro produkci
 
 ```bash
 npm run build
 npm start
 ```
+
+## Live Demo
+
+Dashboard je dostupný na: [GitHub Repository](https://github.com/davidrynes/Editha)
 
 ## Licence
 
