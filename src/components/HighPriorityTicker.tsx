@@ -96,11 +96,9 @@ export function HighPriorityTicker({ articles }: HighPriorityTickerProps) {
                 </Button>
               </div>
               
-              <div className="h-10 mb-2">
-                <p className="text-sm text-red-800 line-clamp-2">
-                  {currentArticle.shrnuti}
-                </p>
-              </div>
+              <p className="text-sm text-red-800 mb-2">
+                {currentArticle.shrnuti}
+              </p>
               
               <div className="flex items-center gap-4 text-xs text-red-700 h-4">
                 <span>{formatTimeAgo(currentArticle.timestamp)}</span>

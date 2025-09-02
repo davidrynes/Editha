@@ -90,7 +90,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
       </CardHeader>
       
       <CardContent className="pt-0">
-        <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
+        <p className="text-sm text-muted-foreground mb-3">
           {article.shrnuti}
         </p>
         
