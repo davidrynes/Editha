@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { Metadata } from 'next';
 import { Article } from '@/types/article';
 import { fetchArticles, filterArticles } from '@/lib/data';
 import { ArticleCard } from '@/components/ArticleCard';
@@ -11,6 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Dashboard() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -88,8 +88,17 @@ export default function Dashboard() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Editha</h1>
-              <p className="text-muted-foreground">
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/editha.svg"
+                  alt="Editha Logo"
+                  width={200}
+                  height={70}
+                  className="h-12 w-auto"
+                  priority
+                />
+              </div>
+              <p className="text-muted-foreground mt-2">
                 Přehled článků z redakčních zdrojů
               </p>
             </div>
