@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Card, CardContent } from '@/components/ui/card';
-import { X, ChevronDown } from 'lucide-react';
+import { X, ChevronDown, Filter } from 'lucide-react';
 
 interface FiltersProps {
   articles: Article[];
@@ -20,6 +21,7 @@ interface FiltersProps {
 }
 
 export function Filters({ articles, onFiltersChange }: FiltersProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState({
     region: 'all',
     temata: [] as string[],
@@ -70,11 +72,25 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
   const hasActiveFilters = filters.region !== 'all' || filters.temata.length > 0 || filters.dulezitost !== 'all';
 
   return (
-    <Card>
-      <CardContent className="p-6 space-y-4">
-
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <Button variant="outline" className="w-full justify-between">
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4" />
+            <span>Filtry</span>
+            {hasActiveFilters && (
+              <span className="ml-2 rounded-full bg-primary text-primary-foreground text-xs px-2 py-0.5">
+                {[filters.region !== 'all' ? 1 : 0, filters.temata.length, filters.dulezitost !== 'all' ? 1 : 0].reduce((a, b) => a + b, 0)}
+              </span>
+            )}
+          </div>
+          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'transform rotate-180' : ''}`} />
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <Card className="mt-4">
+          <CardContent className="p-6 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label className="text-sm font-medium mb-2 block">Region</label>
             <Select value={filters.region} onValueChange={(value) => handleFilterChange('region', value)}>
@@ -149,17 +165,19 @@ export function Filters({ articles, onFiltersChange }: FiltersProps) {
           </div>
         </div>
 
-        {hasActiveFilters && (
-          <Button 
-            variant="outline" 
-            onClick={clearFilters}
-            className="w-full"
-          >
-            <X className="h-4 w-4 mr-2" />
-            Vymazat filtry
-          </Button>
-        )}
-      </CardContent>
-    </Card>
+            {hasActiveFilters && (
+              <Button 
+                variant="outline" 
+                onClick={clearFilters}
+                className="w-full"
+              >
+                <X className="h-4 w-4 mr-2" />
+                Vymazat filtry
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      </CollapsibleContent>
+    </Collapsible>
   );
 }
